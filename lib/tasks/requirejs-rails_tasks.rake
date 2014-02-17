@@ -108,15 +108,14 @@ EOM
         digest_name = asset_name.sub(/\.(\w+)$/) { |ext| "-#{requirejs.builder.digest_for(built_asset_path)}#{ext}" }
         digest_asset_path = requirejs.config.target_dir + digest_name
         requirejs.manifest[asset_name] = digest_name
-        FileUtils.cp built_asset_path, digest_asset_path
+        FileUtils.mv built_asset_path, digest_asset_path
 
         # Create the compressed versions
-        File.open("#{built_asset_path}.gz",'wb') do |f|
+        File.open("#{digest_asset_path}.gz",'wb') do |f|
           zgw = Zlib::GzipWriter.new(f, Zlib::BEST_COMPRESSION)
-          zgw.write built_asset_path.read
+          zgw.write digest_asset_path.read
           zgw.close
         end
-        FileUtils.cp "#{built_asset_path}.gz", "#{digest_asset_path}.gz"
 
         requirejs.config.manifest_path.open('wb') do |f|
           YAML.dump(requirejs.manifest,f)
