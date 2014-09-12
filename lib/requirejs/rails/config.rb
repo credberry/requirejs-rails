@@ -9,22 +9,23 @@ module Requirejs::Rails
   class Config < ::ActiveSupport::OrderedOptions
     LOADERS = [ :requirejs, :almond ]
 
-    def initialize
+    def initialize(application)
       super
       self.manifest = nil
 
       self.logical_asset_filter = [/\.js$/,/\.html$/,/\.txt$/]
-      self.tmp_dir = Rails.root + 'tmp'
+      self.tmp_dir = application.root + 'tmp'
       self.bin_dir = Pathname.new(__FILE__+'/../../../../bin').cleanpath
 
-      self.source_dir = self.tmp_dir + 'assets'
-      self.target_dir = Rails.root + 'public/assets'
+      self.source_dir = self.tmp_dir.join("requirejs/src")
+      self.build_dir = self.tmp_dir.join("requirejs/dst")
+      self.target_dir = application.root + 'public/assets'
       self.rjs_path   = self.bin_dir+'r.js'
 
       self.loader = :requirejs
 
       self.driver_template_path = Pathname.new(__FILE__+'/../rjs_driver.js.erb').cleanpath
-      self.driver_path = self.tmp_dir + 'rjs_driver.js'
+      self.driver_path = self.tmp_dir.join("requirejs/rjs_driver.js")
 
       self.user_config = {}
 
@@ -140,10 +141,6 @@ module Requirejs::Rails
       when :requirejs
         return mod['name']
       end
-    end
-
-    def module_path_for(mod)
-      self.target_dir+(module_name_for(mod)+'.js')
     end
 
     def get_binding

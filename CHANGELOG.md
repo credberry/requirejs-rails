@@ -1,6 +1,26 @@
 <!--
 Marked Style: GitHub
 -->
+# v0.9.5
+
+- Allow baseUrl configuration
+- Update `require.js` to `2.1.15`
+
+# v0.9.4
+
+- Restore compression of non-module JS assets if specified, including `require.js` itself.
+- Update `require.js` to `2.1.14`.
+
+# v0.9.3
+
+- Add detection and proper handling of Bower-based modules.
+- Update `require.js` to `2.1.11` and `almond.js` to `0.2.9`.
+
+# v0.9.2
+
+- Update `require.js` to `2.1.10` and `almond.js` to `0.2.5`.
+- Rails 4 support.
+
 # v0.9.1
 
 - Updated to to require.js \ r.js 2.1.2, and almond 0.2.3
@@ -62,7 +82,7 @@ Marked Style: GitHub
 - We now generate a paths config to hit digested assets when needed (in
   `production` or when `config.assets.digest` is true). Fixes #20.
 - Support for generating additional data attributes on the require.js script
-  tag via `requirejs_include_tag`. See [README](README.md) for details. Closes 
+  tag via `requirejs_include_tag`. See [README](README.md) for details. Closes
   pull request #32; thanks to @hollow for the submission!
 
 # v0.5.6
